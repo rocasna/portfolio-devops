@@ -1,0 +1,15 @@
+# Entornos virtuales Python
+venv/
+**/venv/
+lib/
+lib64/
+include/
+pyvenv.cfg
+
+# Cache de Python
+__pycache__/
+**/__pycache__/
+*.pyc
+
+# Otros
+.DS_Store

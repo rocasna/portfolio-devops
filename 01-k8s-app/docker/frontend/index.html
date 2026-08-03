@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frontend K8s</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 600px; margin: 40px auto; padding: 20px; }
+        .card { background: #f4f4f9; border: 1px solid #ddd; padding: 15px; margin-bottom: 10px; border-radius: 5px; }
+        button { padding: 8px 12px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+    <h1>Frontend en Contenedor Independiente</h1>
+    
+    <div class="card">
+        <h3>Estado del Backend</h3>
+        <button onclick="verificarSalud()">Check /api/health</button>
+        <p id="salud-resultado">Presiona para verificar.</p>
+    </div>
+
+    <div class="card">
+        <h3>Datos de la API</h3>
+        <button onclick="cargarDatos()">Cargar /api/data</button>
+        <ul id="lista-datos"></ul>
+    </div>
+
+    <script>
+        // Al usar rutas relativas, el navegador buscará en el mismo host/puerto del front
+        async function verificarSalud() {
+            try {
+                const respuesta = await fetch('/api/health');
+                const datos = await respuesta.json();
+                document.getElementById('salud-resultado').textContent = `Status: ${datos.status} - ${datos.message}`;
+            } catch (error) {
+                document.getElementById('salud-resultado').textContent = `Error: ${error.message}`;
+            }
+        }
+
+        async function cargarDatos() {
+            const lista = document.getElementById('lista-datos');
+            lista.innerHTML = "Cargando...";
+            try {
+                const respuesta = await fetch('/api/data');
+                const usuarios = await respuesta.json();
+                lista.innerHTML = "";
+                usuarios.forEach(u => {
+                    const li = document.createElement('li');
+                    li.textContent = `${u.nombre} (${u.rol})`;
+                    lista.appendChild(li);
+                });
+            } catch (error) {
+                lista.innerHTML = `Error al cargar datos`;
+            }
+        }
+    </script>
+</body>
+</html>

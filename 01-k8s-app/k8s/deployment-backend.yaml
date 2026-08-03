@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment-backend
+  labels:
+    app: portfolio-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: portfolio-backend
+  template:
+    metadata:
+      labels:
+        app: portfolio-backend
+    spec:
+      containers:
+      - name: deployment-backend
+        image: rcastro95/portfolio-backend:latest
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 65534
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "250m"
+          limits:
+            memory: "256Mi"
+            cpu: "1000m"
+        livenessProbe:
+          httpGet:
+            path: /api/health
+            port: 5000
+          initialDelaySeconds: 20
+          periodSeconds: 10
+          timeoutSeconds: 5
+        readinessProbe:
+          httpGet:
+            path: /api/health
+            port: 5000
+          initialDelaySeconds: 15
+          periodSeconds: 5
+          timeoutSeconds: 5
+        ports:
+        - containerPort: 5000
