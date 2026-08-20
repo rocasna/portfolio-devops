@@ -6,6 +6,7 @@ on:
       - master
     paths:
       - '02-terraform-module/fase-A/**'
+      - '02-terraform-module/docker/backend/**'
 
 permissions:
   contents: read
@@ -42,3 +43,32 @@ jobs:
           context: ./02-terraform-module/docker/backend
           push: true
           tags: rcastro95/portfolio-backend:${{ steps.vars.outputs.image_tag }}
+
+  terraform-apply:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./02-terraform-module/fase-A/environments/dev
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ secrets.GCP_SERVICE_ACCOUNT }}
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Update startup-script with new image tag
+        run: |
+          sed -i "s|rcastro95/portfolio-backend:[^\"']*|rcastro95/portfolio-backend:${{ needs.build-and-push.outputs.image_tag }}|" startup-script.sh
+
+      - name: Terraform Init
+        run: terraform init
+
+      - name: Terraform Apply
+        run: terraform apply -auto-approve
