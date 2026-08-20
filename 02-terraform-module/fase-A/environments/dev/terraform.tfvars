@@ -16,3 +16,4 @@ db_point_in_time_recovery_enabled = true
 db_binary_log_enabled = true
 db_backup_start_time = "03:00"
 db_transaction_log_retention_days = 7
+impersonate_sa = "terraform-admin@fase-a-504618.iam.gserviceaccount.com"
