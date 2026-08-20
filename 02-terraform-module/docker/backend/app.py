@@ -8,6 +8,7 @@ def inicio():
     print("Estamos ready para recibir peticiones!")
     return "¡Servidor Flask funcionando con éxito!"
 
+
 @app.route('/health', methods=['GET'])
 def health_check():
     return jsonify({
