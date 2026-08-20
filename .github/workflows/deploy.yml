@@ -72,3 +72,27 @@ jobs:
 
       - name: Terraform Apply
         run: terraform apply -auto-approve
+        env:
+          TF_VAR_project_id: "fase-a-504618"
+          TF_VAR_application_name: "terraform-module"
+          TF_VAR_region: "europe-west1"
+          TF_VAR_subnet_ip_range: "10.0.0.0/16"
+          TF_VAR_image_family: "debian-cloud/debian-12"
+          TF_VAR_zone: "europe-west1-b"
+          TF_VAR_env: "dev"
+          TF_VAR_db_version: "MYSQL_8_4"
+          TF_VAR_db_edition: "ENTERPRISE"
+          TF_VAR_db_tier: "db-g1-small"
+          TF_VAR_db_deletion_protection: "false"
+          TF_VAR_db_ipv4_enabled: "false"
+          TF_VAR_db_backup_enabled: "true"
+          TF_VAR_db_backup_location: "europe-west1"
+          TF_VAR_db_point_in_time_recovery_enabled: "true"
+          TF_VAR_db_binary_log_enabled: "true"
+          TF_VAR_db_backup_start_time: "03:00"
+          TF_VAR_db_transaction_log_retention_days: "7"
+
+      - name: Notify completion
+        if: always()
+        run: |
+          echo "Pipeline finalizado con estado: ${{ job.status }}"
