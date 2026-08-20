@@ -39,6 +39,6 @@ jobs:
       - name: Build and push image
         uses: docker/build-push-action@v6
         with:
-          context: ./02-terraform-module/fase-A/docker/backend
+          context: ./02-terraform-module/docker/backend
           push: true
           tags: rcastro95/portfolio-backend:${{ steps.vars.outputs.image_tag }}
