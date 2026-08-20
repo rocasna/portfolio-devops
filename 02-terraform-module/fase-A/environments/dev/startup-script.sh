@@ -84,4 +84,6 @@ else
   exit 1
 fi
 
+echo "CICD: $(date)" >> /log-cicd.log
+
 echo "=== Startup script finalizado con éxito: $(date) ==="
