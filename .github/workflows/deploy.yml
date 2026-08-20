@@ -67,5 +67,8 @@ jobs:
         run: |
           sed -i "s|rcastro95/portfolio-backend:[^\"']*|rcastro95/portfolio-backend:${{ needs.build-and-push.outputs.image_tag }}|" startup-script.sh
 
+      - name: Terraform Init
+        run: terraform init
+
       - name: Terraform Apply
         run: terraform apply -auto-approve
