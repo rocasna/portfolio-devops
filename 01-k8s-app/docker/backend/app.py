@@ -6,6 +6,7 @@ app = Flask(__name__)
 @app.route('/')
 def inicio():
     return "¡Servidor Flask funcionando con éxito!"
+    print("Estamos ready para recibir peticiones!")
 
 @app.route('/health', methods=['GET'])
 def health_check():
