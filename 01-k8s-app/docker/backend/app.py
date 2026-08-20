@@ -51,3 +51,4 @@ def db_status():
         return jsonify({"status": "conectado", "resultado": resultado}), 200
     except Exception as e:
         return jsonify({"status": "error", "detalle": str(e)}), 500
+    
